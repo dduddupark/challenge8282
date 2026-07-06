@@ -13,6 +13,6 @@ class HomeController {
 
     @GetMapping("/blue/test")
     fun healthz(): String {
-        return "blue test"
+        return "blue test2"
     }
 }
