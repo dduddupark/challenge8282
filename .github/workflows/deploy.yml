@@ -22,8 +22,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script_stop: true
           script: |
-            cd cicd-aws
-
+            cd challenge-8282
             echo "Pull latest code"
             git pull
 
