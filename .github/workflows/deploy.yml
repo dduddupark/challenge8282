@@ -28,5 +28,5 @@ jobs:
 
       - name: Push Image
         run: |
-          docker tag my-app your-dockerhub/my-app:latest
-          docker push your-dockerhub/my-app:latest
+          docker tag my-app ${{ secrets.DOCKER_USERNAME }}/challenge8282:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/challenge8282:latest
