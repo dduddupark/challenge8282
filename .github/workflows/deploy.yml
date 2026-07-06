@@ -22,12 +22,37 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script_stop: true
           script: |
+            # Docker 설치 확인 및 설치
+            if ! command -v docker &> /dev/null; then
+              echo "Installing Docker..."
+              sudo amazon-linux-extras install docker -y
+              sudo systemctl start docker
+              sudo systemctl enable docker
+              sudo usermod -aG docker ec2-user
+            fi
+
+            # Docker Compose 플러그인 설치 확인 및 설치
+            if ! docker compose version &> /dev/null; then
+              echo "Installing Docker Compose plugin..."
+              sudo mkdir -p /usr/local/lib/docker/cli-plugins
+              sudo curl -L "https://github.com/docker/compose/releases/download/v2.29.7/docker-compose-linux-x86_64" -o /usr/local/lib/docker/cli-plugins/docker-compose
+              sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
+            fi
+
+            # Docker Buildx 플러그인 설치 확인 및 설치
+            if ! docker buildx version &> /dev/null; then
+              echo "Installing Docker Buildx plugin..."
+              sudo mkdir -p /usr/local/lib/docker/cli-plugins
+              sudo curl -L "https://github.com/docker/buildx/releases/download/v0.17.1/buildx-v0.17.1.linux-amd64" -o /usr/local/lib/docker/cli-plugins/docker-buildx
+              sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-buildx
+            fi
+
             cd challenge8282
             echo "Pull latest code"
             git pull
 
             echo "Stop containers"
-            docker compose down
+            docker compose down || true
 
             echo "Build & Run containers"
             docker compose up -d --build
