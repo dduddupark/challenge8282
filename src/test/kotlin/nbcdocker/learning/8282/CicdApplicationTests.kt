@@ -1,4 +1,4 @@
-package nbcdocker.learning.cicd_aws
+package nbcdocker.learning.`8282`
 
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test

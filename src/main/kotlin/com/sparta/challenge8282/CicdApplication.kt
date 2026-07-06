@@ -1,4 +1,4 @@
-package nbcdocker.learning.cicd_aws
+package com.sparta.challenge8282
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

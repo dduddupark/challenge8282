@@ -1,4 +1,4 @@
-package nbcdocker.learning.cicd_aws.controller
+package com.sparta.challenge8282.controller
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
@@ -11,8 +11,8 @@ class HomeController {
         return "home-aws"
     }
 
-    @GetMapping("/healthz")
+    @GetMapping("/blue/test")
     fun healthz(): String {
-        return "healthz-aws"
+        return "blue test"
     }
 }
