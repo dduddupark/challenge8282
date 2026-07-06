@@ -20,20 +20,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build JAR
+      - name: Build project
         run: ./gradlew build -x test
 
-      - name: SCP JAR to EC2
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ec2-user
-          key: ${{ secrets.SSH_KEY }}
-          source: "build/libs/*.jar"
-          target: "/home/ec2-user/challenge8282/"
-          strip_components: 2
-
-      - name: Deploy to EC2
+      - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -41,10 +31,10 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script_stop: true
           script: |
-            echo "📦 Move to project folder"
+            echo "📦 Check project directory"
 
             if [ ! -d "challenge8282" ]; then
-              echo "📥 Clone repo (first time only)"
+              echo "📥 Clone repo"
               git clone https://github.com/YOUR_REPO/challenge8282.git
             fi
 
@@ -56,7 +46,7 @@ jobs:
             echo "🛑 Stop containers"
             docker compose down || true
 
-            echo "🚀 Build & Run containers"
+            echo "🚀 Build & Run"
             docker compose up -d --build
 
-            echo "✅ Deploy finished"
+            echo "✅ Deploy complete"
